@@ -1,4 +1,4 @@
-package demo.qa;
+package demo.qa.tests;
 
 import com.codeborne.selenide.Configuration;
 import org.junit.jupiter.api.BeforeAll;
@@ -12,11 +12,6 @@ import static com.codeborne.selenide.Selenide.*;
 
 public class TestRegistrationForm {
 
-    @BeforeAll
-    static void setUp(){
-        Configuration.holdBrowserOpen = true; //Делаем чтобы браузер оставался открытым
-        Configuration.baseUrl = "https://demoqa.com"; //Добавляем настройку стандартного урла
-    }
     @Test
 
     void simpleTest(){
