@@ -9,21 +9,28 @@ import java.io.File;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
+import static io.qameta.allure.Allure.step;
 
 public class TestRegistrationForm extends TestBase {
 
     @Test
 
     void simpleTest(){
+        step("Open registrations form", () -> {
+            open("/automation-practice-form");
+            $(".practice-form-wrapper").shouldHave(text("Student Registration Form"));
+            executeJavaScript("$('footer').remove()");
+            executeJavaScript("$('#fixedban').remove()");
+        });
 
-        String BaseUrl = "/automation-practice-form"; //создали переменную для страницы которую будем тестирвоать
-        open(BaseUrl); //открываем станицу которую будем тестировать через переменную
 
+        step("Fill form", () -> {
         $("#firstName").setValue("Орлов"); //Заполянем Имя
         $("#lastName").setValue("Алексей"); //Заполянем Фамилию
         $("#userEmail").setValue("aorlov@site.com"); //Заполянем емейл
         $("#gender-radio-1").doubleClick(); //Кликаем на пол
-        $("#userNumber").setValue("9777742959"); //заполняем моб
+        $("#userNumber").setValue("9777742959");
+         //заполняем моб
 
         $("#dateOfBirthInput").click(); //кликаем на поле чтобы открыть календарь
         $(".react-datepicker__month-select").selectOption("July"); //Выбираем месяц через selectOption
@@ -40,12 +47,12 @@ public class TestRegistrationForm extends TestBase {
         $("#react-select-3-input").setValue("NCR").pressEnter(); //выбираем штат
         $("#react-select-4-input").setValue("Noida").pressEnter(); //выбираем город
 
-        executeJavaScript("$('#fixedban').remove()"); //убираем футер
-        executeJavaScript("$('footer').remove()");
 
         $("#submit").click(); //Кликаем на подтвержение формы
+            });
 
         //Проверяем поля
+        step("Check form results", () -> {
         $(".table-responsive").shouldHave(text("Орлов"));
         $(".table-responsive").shouldHave(text("Алексей"));
         $(".table-responsive").shouldHave(text("aorlov@site.com"));
@@ -57,5 +64,6 @@ public class TestRegistrationForm extends TestBase {
         $(".table-responsive").shouldHave(text("CKtO-Q6I1ks.jpeg"));
         $(".table-responsive").shouldHave(text("Moskva, Krasnopresnenskaya nab., 12-17"));
         $(".table-responsive").shouldHave(text("NCR Noida"));
+        });
     }
 }
